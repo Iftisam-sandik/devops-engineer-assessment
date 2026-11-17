@@ -1,0 +1,40 @@
+groups:
+  - name: operational
+    rules:
+      - alert: AppDown
+        expr: up{job="app"} == 0
+        for: 1m
+        labels: { severity: critical }
+        annotations:
+          summary: Application scrape unavailable for one minute
+          description: Check app health, container logs and connectivity; two missed scrapes alone do not page.
+      - alert: HighAppErrorRate
+        expr: >-
+          ((sum(rate(http_errors_total{status_code=~"5.."}[5m])) or vector(0))
+          / clamp_min(sum(rate(http_requests_total{route!~"/health|/metrics"}[5m])), 0.001) > 0.05)
+          and (sum(rate(http_requests_total{route!~"/health|/metrics"}[5m])) > 0.1)
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: More than five percent server errors for five minutes
+          description: Minimum traffic 0.1 requests/second avoids paging for a single idle-service error. Filter logs by status_code >= 500.
+      - alert: HostDiskAlmostFull
+        expr: >-
+          (1 - node_filesystem_avail_bytes{fstype!~"tmpfs|squashfs|proc|sysfs|devtmpfs|cgroup2"}
+          / node_filesystem_size_bytes{fstype!~"tmpfs|squashfs|proc|sysfs|devtmpfs|cgroup2"}) > 0.80
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: Host filesystem more than eighty percent full for ten minutes
+          description: Leaves time to rotate logs or grow storage; duration filters transient builds.
+      - alert: ContainerMemoryNearLimit
+        expr: >-
+          ((container_memory_working_set_bytes{container_label_com_docker_compose_service!=""}
+          / container_spec_memory_limit_bytes{container_label_com_docker_compose_service!=""}) > 0.90)
+          and (container_spec_memory_limit_bytes > 0)
+          and (container_spec_memory_limit_bytes < 1e15)
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: Container working set exceeds ninety percent of its limit for five minutes
+          description: Investigate leaks or increase the configured limit before an OOM kill.

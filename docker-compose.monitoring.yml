@@ -1,0 +1,111 @@
+x-internal-environment: &internal-environment
+  NO_PROXY: "${NO_PROXY:-localhost,127.0.0.1},app,prometheus,loki,node-exporter,cadvisor,alloy,grafana"
+  no_proxy: "${no_proxy:-localhost,127.0.0.1},app,prometheus,loki,node-exporter,cadvisor,alloy,grafana"
+services:
+  app:
+    networks: [application, monitoring]
+    environment: *internal-environment
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    environment: *internal-environment
+    command: ["--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.path=/prometheus", "--storage.tsdb.retention.time=7d", "--web.enable-lifecycle"]
+    volumes:
+      - ./monitoring/prometheus:/etc/prometheus:ro
+      - prometheus-data:/prometheus
+    networks: [monitoring]
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 384m
+    cpus: 0.5
+  grafana:
+    image: grafana/grafana:12.2.0
+    environment:
+      <<: *internal-environment
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Generate GRAFANA_ADMIN_PASSWORD in .env}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_LOG_MODE: console
+    ports: ["127.0.0.1:3000:3000"]
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    tmpfs: [/tmp]
+    networks: [monitoring, frontend]
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 384m
+    cpus: 0.5
+  loki:
+    image: grafana/loki:3.5.5
+    environment: *internal-environment
+    command: ["-config.file=/etc/loki/config.yml"]
+    volumes:
+      - ./monitoring/loki/config.yml:/etc/loki/config.yml:ro
+      - loki-data:/loki
+    networks: [monitoring]
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 384m
+    cpus: 0.5
+  alloy:
+    image: grafana/alloy:v1.11.1
+    environment: *internal-environment
+    command: ["run", "--storage.path=/data", "/etc/alloy/config.alloy"]
+    user: "0:0"
+    volumes:
+      - ./monitoring/alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - alloy-storage:/data
+    networks: [monitoring]
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 256m
+    cpus: 0.5
+  node-exporter:
+    image: prom/node-exporter:v1.9.1
+    environment: *internal-environment
+    command: ["--path.rootfs=/host", "--path.procfs=/host/proc", "--path.sysfs=/host/sys"]
+    volumes: ["/:/host:ro"]
+    networks: [monitoring]
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 64m
+    cpus: 0.25
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    environment: *internal-environment
+    cgroup: host
+    command: ["--docker_only=true", "--housekeeping_interval=10s", "--store_container_labels=true", "--whitelisted_container_labels=com.docker.compose.service"]
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /sys:/sys:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${DOCKER_DATA_ROOT:-/var/lib/docker}:/var/lib/docker:ro
+    networks: [monitoring]
+    restart: unless-stopped
+    mem_limit: 256m
+    cpus: 0.5
+networks:
+  frontend:
+  monitoring:
+    internal: true
+volumes:
+  prometheus-data:
+  grafana-data:
+  loki-data:
+  alloy-storage:

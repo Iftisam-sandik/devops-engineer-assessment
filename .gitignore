@@ -16,3 +16,5 @@ health_log.txt*
 secrets/
 .kube/
 work/
+__pycache__/
+*.pyc

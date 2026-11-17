@@ -6,7 +6,7 @@ RUN --mount=type=cache,target=/root/.npm --mount=type=secret,id=proxy_ca \
     if [ -f /run/secrets/proxy_ca ]; then export NODE_EXTRA_CA_CERTS=/run/secrets/proxy_ca; fi; \
     npm ci --omit=dev --ignore-scripts && npm cache clean --force
 
-FROM node:24.22.3-alpine3.24 AS runtime
+FROM alpine:3.24.4 AS runtime
 ARG APP_VERSION=1.0.0
 ARG VCS_REF=unknown
 LABEL org.opencontainers.image.title="DevOps Assessment" \
@@ -15,6 +15,11 @@ LABEL org.opencontainers.image.title="DevOps Assessment" \
       org.opencontainers.image.version="${APP_VERSION}" \
       org.opencontainers.image.revision="${VCS_REF}"
 ENV NODE_ENV=production PORT=8080 LOG_LEVEL=info ENVIRONMENT=production APP_VERSION=${APP_VERSION}
+RUN addgroup -g 1000 node && adduser -D -H -u 1000 -G node node
+COPY --from=dependencies /usr/local/bin/node /usr/local/bin/node
+COPY --from=dependencies /usr/lib/libstdc++.so.6* /usr/lib/
+COPY --from=dependencies /usr/lib/libgcc_s.so.1 /usr/lib/
+COPY --from=dependencies /usr/lib/libatomic.so.1* /usr/lib/
 WORKDIR /app
 COPY --from=dependencies --chown=node:node /app/node_modules ./node_modules
 COPY --chown=node:node package.json ./

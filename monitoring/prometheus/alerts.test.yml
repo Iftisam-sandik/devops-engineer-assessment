@@ -1,0 +1,69 @@
+rule_files: [alerts.yml]
+evaluation_interval: 1m
+tests:
+  - interval: 1m
+    input_series:
+      - series: 'up{job="app",instance="app:8080"}'
+        values: 0+0x20
+    alert_rule_test:
+      - eval_time: 0m
+        alertname: AppDown
+        exp_alerts: []
+      - eval_time: 1m
+        alertname: AppDown
+        exp_alerts:
+          - exp_labels: { job: app, instance: "app:8080", severity: critical }
+            exp_annotations:
+              summary: Application scrape unavailable for one minute
+              description: Check app health, container logs and connectivity; two missed scrapes alone do not page.
+  - interval: 1m
+    input_series:
+      - series: 'http_errors_total{job="app",route="/",status_code="500"}'
+        values: 0+6x20
+      - series: 'http_requests_total{job="app",route="/",status_code="200"}'
+        values: 0+60x20
+    alert_rule_test:
+      - eval_time: 5m
+        alertname: HighAppErrorRate
+        exp_alerts: []
+      - eval_time: 6m
+        alertname: HighAppErrorRate
+        exp_alerts:
+          - exp_labels: { severity: warning }
+            exp_annotations:
+              summary: More than five percent server errors for five minutes
+              description: Minimum traffic 0.1 requests/second avoids paging for a single idle-service error. Filter logs by status_code >= 500.
+  - interval: 1m
+    input_series:
+      - series: 'node_filesystem_avail_bytes{device="/dev/test",fstype="ext4",mountpoint="/"}'
+        values: 15+0x20
+      - series: 'node_filesystem_size_bytes{device="/dev/test",fstype="ext4",mountpoint="/"}'
+        values: 100+0x20
+    alert_rule_test:
+      - eval_time: 9m
+        alertname: HostDiskAlmostFull
+        exp_alerts: []
+      - eval_time: 10m
+        alertname: HostDiskAlmostFull
+        exp_alerts:
+          - exp_labels: { device: /dev/test, fstype: ext4, mountpoint: /, severity: warning }
+            exp_annotations:
+              summary: Host filesystem more than eighty percent full for ten minutes
+              description: Leaves time to rotate logs or grow storage; duration filters transient builds.
+  - interval: 1m
+    input_series:
+      - series: 'container_memory_working_set_bytes{container_label_com_docker_compose_service="app",name="app"}'
+        values: 95+0x20
+      - series: 'container_spec_memory_limit_bytes{container_label_com_docker_compose_service="app",name="app"}'
+        values: 100+0x20
+    alert_rule_test:
+      - eval_time: 4m
+        alertname: ContainerMemoryNearLimit
+        exp_alerts: []
+      - eval_time: 5m
+        alertname: ContainerMemoryNearLimit
+        exp_alerts:
+          - exp_labels: { container_label_com_docker_compose_service: app, name: app, severity: warning }
+            exp_annotations:
+              summary: Container working set exceeds ninety percent of its limit for five minutes
+              description: Investigate leaks or increase the configured limit before an OOM kill.

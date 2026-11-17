@@ -1,0 +1,46 @@
+[
+  {
+    "case": "normal",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "json_valid": true,
+    "disk_entries": 25
+  },
+  {
+    "case": "warning",
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "json_valid": true,
+    "disk_entries": 25
+  },
+  {
+    "case": "critical",
+    "expected_exit": 2,
+    "actual_exit": 2,
+    "json_valid": true,
+    "disk_entries": 25
+  },
+  {
+    "case": "invalid",
+    "expected_exit": 2,
+    "actual_exit": 2,
+    "json_valid": false,
+    "disk_entries": null
+  },
+  {
+    "case": "help",
+    "expected_exit": 0,
+    "actual_exit": 0,
+    "json_valid": false,
+    "disk_entries": null
+  },
+  {
+    "case": "rotation",
+    "backups": 2,
+    "result": "PASS"
+  },
+  {
+    "case": "timestamped_human_log",
+    "result": "PASS"
+  }
+]

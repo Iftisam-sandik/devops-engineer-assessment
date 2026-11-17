@@ -1,0 +1,100 @@
+$ docker run -d --name assessment-registry-34374 -p 127.0.0.1:5010:5000 registry:2.8.3
+2a03fb4efe53b876f28b9537ddd5b0851a29f09c29104cae7bdd8abf80477e62
+
+$ docker tag devops-assessment:1.0.0 localhost:5010/assessment-34374:good
+
+$ docker create --name assessment-fault-seed-34374 devops-assessment:1.0.0 node -e require('node:http').createServer((q,s)=>s.end('wrong port')).listen(9999)
+a5ff14a9dd8ce26af669d91ca3c88d20708ef8ea25cf8f4578ad7b3900dcf187
+
+$ docker commit assessment-fault-seed-34374 localhost:5010/assessment-34374:bad
+sha256:d1e686a01356f033f718f966cbf77904e7f371e92e2a2c292916cddae2d3e9a7
+
+$ docker image inspect localhost:5010/assessment-34374:good --format {{.Id}}
+sha256:8a783375f8c6f2a85dcd703719c74044cd1f82ebb7b9a9d5ce8e4a57fd88c128
+
+$ docker image inspect localhost:5010/assessment-34374:bad --format {{.Id}}
+sha256:d1e686a01356f033f718f966cbf77904e7f371e92e2a2c292916cddae2d3e9a7
+
+$ docker push localhost:5010/assessment-34374:good
+The push refers to repository [localhost:5010/assessment-34374]
+570ef7522e7d: Preparing
+2592023c666f: Preparing
+d517ef9ec2ba: Preparing
+4e2562799499: Preparing
+b0c6252e76c1: Preparing
+c2dea441ccf6: Preparing
+a035da613532: Preparing
+7154969edf93: Preparing
+a8879a5c009e: Preparing
+75f1d9657d88: Preparing
+c2dea441ccf6: Waiting
+a035da613532: Waiting
+7154969edf93: Waiting
+a8879a5c009e: Waiting
+75f1d9657d88: Waiting
+b0c6252e76c1: Pushed
+4e2562799499: Pushed
+2592023c666f: Pushed
+570ef7522e7d: Pushed
+c2dea441ccf6: Pushed
+a035da613532: Pushed
+a8879a5c009e: Pushed
+75f1d9657d88: Pushed
+d517ef9ec2ba: Pushed
+7154969edf93: Pushed
+good: digest: sha256:79b489ee07acb5cc1b09943465f7cfceff82335c68d1073e985e70666684dd9e size: 2407
+
+$ docker push localhost:5010/assessment-34374:bad
+The push refers to repository [localhost:5010/assessment-34374]
+570ef7522e7d: Preparing
+2592023c666f: Preparing
+d517ef9ec2ba: Preparing
+4e2562799499: Preparing
+b0c6252e76c1: Preparing
+c2dea441ccf6: Preparing
+a035da613532: Preparing
+7154969edf93: Preparing
+a8879a5c009e: Preparing
+75f1d9657d88: Preparing
+a035da613532: Waiting
+7154969edf93: Waiting
+a8879a5c009e: Waiting
+75f1d9657d88: Waiting
+c2dea441ccf6: Waiting
+2592023c666f: Layer already exists
+b0c6252e76c1: Layer already exists
+4e2562799499: Layer already exists
+d517ef9ec2ba: Layer already exists
+a8879a5c009e: Layer already exists
+a035da613532: Layer already exists
+570ef7522e7d: Layer already exists
+c2dea441ccf6: Layer already exists
+7154969edf93: Layer already exists
+75f1d9657d88: Layer already exists
+bad: digest: sha256:c972772de3f7cf4ab9e64fe242f4e8ad886f871e173594a7295abe64dd9d27a4 size: 2407
+
+$ bash scripts/deploy.sh localhost:5010/assessment-34374:good
+good: Pulling from assessment-34374
+Digest: sha256:79b489ee07acb5cc1b09943465f7cfceff82335c68d1073e985e70666684dd9e
+Status: Image is up to date for localhost:5010/assessment-34374:good
+localhost:5010/assessment-34374:good
+{"status":"healthy"}DEPLOY_SUCCEEDED image=localhost:5010/assessment-34374:good
+curl: (52) Empty reply from server
+
+$ bash scripts/deploy.sh localhost:5010/assessment-34374:bad
+bad: Pulling from assessment-34374
+Digest: sha256:c972772de3f7cf4ab9e64fe242f4e8ad886f871e173594a7295abe64dd9d27a4
+Status: Image is up to date for localhost:5010/assessment-34374:bad
+localhost:5010/assessment-34374:bad
+{"status":"healthy"}ROLLBACK_SUCCEEDED
+curl: (52) Empty reply from server
+curl: (52) Empty reply from server
+curl: (52) Empty reply from server
+Deployment failed; restoring previous container (exit=1)
+curl: (52) Empty reply from server
+
+$ docker inspect assessment-rollback-34374 --format {{.Image}}
+sha256:8a783375f8c6f2a85dcd703719c74044cd1f82ebb7b9a9d5ce8e4a57fd88c128
+
+$ bash scripts/deploy.sh localhost:5010/assessment-34374:bad
+Application environment file is not readable

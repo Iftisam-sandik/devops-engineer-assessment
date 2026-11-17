@@ -1,0 +1,58 @@
+LAST SEEN   TYPE      REASON                         OBJECT                        MESSAGE
+69s         Normal    Scheduled                      pod/app-5c45f7bc67-fgdp5      Successfully assigned devops-assessment/app-5c45f7bc67-fgdp5 to assessment-control-plane
+69s         Normal    SuccessfulCreate               replicaset/app-5c45f7bc67     Created pod: app-5c45f7bc67-cswc9
+69s         Normal    SuccessfulCreate               replicaset/app-5c45f7bc67     Created pod: app-5c45f7bc67-fgdp5
+69s         Normal    ScalingReplicaSet              deployment/app                Scaled up replica set app-5c45f7bc67 from 0 to 2
+69s         Normal    Scheduled                      pod/app-5c45f7bc67-cswc9      Successfully assigned devops-assessment/app-5c45f7bc67-cswc9 to assessment-control-plane
+68s         Normal    Pulled                         pod/app-5c45f7bc67-fgdp5      Container image "devops-assessment:1.0.0" already present on machine
+68s         Normal    Started                        pod/app-5c45f7bc67-cswc9      Started container app
+68s         Normal    Created                        pod/app-5c45f7bc67-fgdp5      Created container: app
+68s         Normal    Started                        pod/app-5c45f7bc67-fgdp5      Started container app
+68s         Normal    Pulled                         pod/app-5c45f7bc67-cswc9      Container image "devops-assessment:1.0.0" already present on machine
+68s         Normal    Created                        pod/app-5c45f7bc67-cswc9      Created container: app
+61s         Normal    Pulled                         pod/availability-13772        Successfully pulled image "curlimages/curl:8.16.0" in 708ms (708ms including waiting). Image size: 13096250 bytes.
+61s         Normal    Scheduled                      pod/availability-13772        Successfully assigned devops-assessment/availability-13772 to assessment-control-plane
+61s         Normal    Pulling                        pod/availability-13772        Pulling image "curlimages/curl:8.16.0"
+61s         Normal    Created                        pod/availability-13772        Created container: availability
+60s         Normal    Started                        pod/availability-13772        Started container availability
+60s         Normal    ScalingReplicaSet              deployment/app                Scaled up replica set app-8668fdc778 from 0 to 1
+60s         Normal    Scheduled                      pod/app-8668fdc778-jr9wj      Successfully assigned devops-assessment/app-8668fdc778-jr9wj to assessment-control-plane
+60s         Normal    SuccessfulCreate               replicaset/app-8668fdc778     Created pod: app-8668fdc778-jr9wj
+60s         Normal    Started                        pod/app-8668fdc778-jr9wj      Started container app
+60s         Normal    Created                        pod/app-8668fdc778-jr9wj      Created container: app
+60s         Normal    Pulled                         pod/app-8668fdc778-jr9wj      Container image "devops-assessment:1.0.1" already present on machine
+54s         Warning   FailedComputeMetricsReplicas   horizontalpodautoscaler/app   invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric value: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+54s         Warning   FailedGetResourceMetric        horizontalpodautoscaler/app   failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+52s         Normal    ScalingReplicaSet              deployment/app                Scaled down replica set app-5c45f7bc67 from 2 to 1
+52s         Normal    Pulled                         pod/app-8668fdc778-hkzmb      Container image "devops-assessment:1.0.1" already present on machine
+52s         Normal    Created                        pod/app-8668fdc778-hkzmb      Created container: app
+52s         Normal    Started                        pod/app-8668fdc778-hkzmb      Started container app
+52s         Normal    SuccessfulCreate               replicaset/app-8668fdc778     Created pod: app-8668fdc778-hkzmb
+52s         Normal    Scheduled                      pod/app-8668fdc778-hkzmb      Successfully assigned devops-assessment/app-8668fdc778-hkzmb to assessment-control-plane
+52s         Normal    Killing                        pod/app-5c45f7bc67-fgdp5      Stopping container app
+52s         Normal    SuccessfulDelete               replicaset/app-5c45f7bc67     Deleted pod: app-5c45f7bc67-fgdp5
+52s         Normal    ScalingReplicaSet              deployment/app                Scaled up replica set app-8668fdc778 from 1 to 2
+45s         Normal    SuccessfulDelete               replicaset/app-5c45f7bc67     Deleted pod: app-5c45f7bc67-cswc9
+45s         Normal    SuccessfulCreate               replicaset/app-5c45f7bc67     Created pod: app-5c45f7bc67-sqgz9
+45s         Normal    Killing                        pod/app-5c45f7bc67-cswc9      Stopping container app
+45s         Normal    ScalingReplicaSet              deployment/app                Scaled up replica set app-5c45f7bc67 from 0 to 1
+45s         Normal    ScalingReplicaSet              deployment/app                Scaled down replica set app-5c45f7bc67 from 1 to 0
+45s         Normal    Started                        pod/app-5c45f7bc67-sqgz9      Started container app
+45s         Normal    Created                        pod/app-5c45f7bc67-sqgz9      Created container: app
+45s         Normal    Pulled                         pod/app-5c45f7bc67-sqgz9      Container image "devops-assessment:1.0.0" already present on machine
+45s         Normal    Scheduled                      pod/app-5c45f7bc67-sqgz9      Successfully assigned devops-assessment/app-5c45f7bc67-sqgz9 to assessment-control-plane
+38s         Normal    ScalingReplicaSet              deployment/app                Scaled up replica set app-5c45f7bc67 from 1 to 2
+38s         Normal    Created                        pod/app-5c45f7bc67-m595c      Created container: app
+38s         Normal    Killing                        pod/app-8668fdc778-hkzmb      Stopping container app
+38s         Normal    SuccessfulDelete               replicaset/app-8668fdc778     Deleted pod: app-8668fdc778-hkzmb
+38s         Normal    SuccessfulCreate               replicaset/app-5c45f7bc67     Created pod: app-5c45f7bc67-m595c
+38s         Normal    Scheduled                      pod/app-5c45f7bc67-m595c      Successfully assigned devops-assessment/app-5c45f7bc67-m595c to assessment-control-plane
+38s         Normal    ScalingReplicaSet              deployment/app                Scaled down replica set app-8668fdc778 from 2 to 1
+38s         Normal    Started                        pod/app-5c45f7bc67-m595c      Started container app
+38s         Normal    Pulled                         pod/app-5c45f7bc67-m595c      Container image "devops-assessment:1.0.0" already present on machine
+31s         Normal    Killing                        pod/app-8668fdc778-jr9wj      Stopping container app
+31s         Normal    ScalingReplicaSet              deployment/app                Scaled down replica set app-8668fdc778 from 1 to 0
+31s         Normal    SuccessfulDelete               replicaset/app-8668fdc778     Deleted pod: app-8668fdc778-jr9wj
+31s         Normal    Killing                        pod/availability-13772        Stopping container availability
+24s         Warning   FailedComputeMetricsReplicas   horizontalpodautoscaler/app   invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric value: failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)
+24s         Warning   FailedGetResourceMetric        horizontalpodautoscaler/app   failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)

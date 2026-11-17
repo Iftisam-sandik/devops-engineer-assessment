@@ -1,0 +1,6 @@
+bucket       = "REPLACE-WITH-APPROVED-STATE-BUCKET"
+key          = "devops-assessment/staging/terraform.tfstate"
+region       = "ap-south-1"
+encrypt      = true
+use_lockfile = true
+# Use a different key for production. Credentials come from AWS SSO/temporary identity.

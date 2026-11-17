@@ -1,0 +1,129 @@
+name: Release
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: production-release
+  cancel-in-progress: false
+jobs:
+  verify:
+    uses: ./.github/workflows/ci.yml
+  publish:
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment: production
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+      ghcr: ${{ steps.tags.outputs.ghcr }}
+      version: ${{ steps.tags.outputs.version }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: aws-actions/configure-aws-credentials@cabfdba3510de1431bac9dba27511d97497fc100 # v5
+        if: vars.AWS_DEPLOY_ENABLED == 'true'
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION || 'ap-south-1' }}
+      - name: Authenticate to the Terraform ECR repository
+        if: vars.AWS_DEPLOY_ENABLED == 'true'
+        env:
+          ECR_REPOSITORY: ${{ vars.AWS_ECR_REPOSITORY }}
+          AWS_REGION: ${{ vars.AWS_REGION || 'ap-south-1' }}
+        run: aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "${ECR_REPOSITORY%%/*}"
+      - name: Immutable SHA and unique semantic version tags
+        id: tags
+        env:
+          REPOSITORY: ${{ github.repository }}
+          ECR_REPOSITORY: ${{ vars.AWS_ECR_REPOSITORY }}
+          AWS_ENABLED: ${{ vars.AWS_DEPLOY_ENABLED }}
+        run: |
+          ghcr="ghcr.io/${REPOSITORY,,}"
+          version="$(node -p 'require("./package.json").version')-build.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}"
+          {
+            echo "ghcr=$ghcr"
+            echo "version=$version"
+            echo 'tags<<TAGS'
+            echo "$ghcr:sha-$GITHUB_SHA"
+            echo "$ghcr:$version"
+            if [ "$AWS_ENABLED" = true ]; then
+              echo "$ECR_REPOSITORY:sha-$GITHUB_SHA-$GITHUB_RUN_NUMBER-$GITHUB_RUN_ATTEMPT"
+              echo "$ECR_REPOSITORY:$version"
+            fi
+            echo TAGS
+          } >> "$GITHUB_OUTPUT"
+      - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        id: build
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.tags.outputs.tags }}
+          build-args: |
+            APP_VERSION=${{ steps.tags.outputs.version }}
+            VCS_REF=${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: mode=max
+      - name: Scan both published architectures before deployment
+        env:
+          IMAGE: ${{ steps.tags.outputs.ghcr }}
+          DIGEST: ${{ steps.build.outputs.digest }}
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p reports
+          for architecture in amd64 arm64; do
+            docker run --rm -e TRIVY_USERNAME -e TRIVY_PASSWORD -v "$PWD/reports:/reports" aquasec/trivy:0.76.2 image --db-repository ghcr.io/aquasecurity/trivy-db:2 --platform "linux/$architecture" --scanners vuln --severity CRITICAL --exit-code 1 --format json --output "/reports/trivy-$architecture.json" "$IMAGE@$DIGEST"
+          done
+      - name: Record published image
+        env:
+          IMAGE: ${{ steps.tags.outputs.ghcr }}
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          mkdir -p reports
+          docker buildx imagetools inspect "$IMAGE@$DIGEST" | tee reports/published-image.txt
+          echo "Published $IMAGE@$DIGEST" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        if: always()
+        with: { name: release-image, path: reports/, retention-days: 30 }
+  deploy:
+    needs: publish
+    if: vars.AWS_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: aws-actions/configure-aws-credentials@cabfdba3510de1431bac9dba27511d97497fc100 # v5
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION || 'ap-south-1' }}
+      - name: SSM deployment, HTTP smoke test and automatic rollback
+        env:
+          INSTANCE_ID: ${{ vars.AWS_INSTANCE_ID }}
+          ECR_REPOSITORY: ${{ vars.AWS_ECR_REPOSITORY }}
+          DIGEST: ${{ needs.publish.outputs.digest }}
+          AWS_REGION: ${{ vars.AWS_REGION || 'ap-south-1' }}
+        run: |
+          mkdir -p reports
+          bash scripts/ssm-deploy.sh "$INSTANCE_ID" "$ECR_REPOSITORY@$DIGEST" "$AWS_REGION" | tee reports/ssm-deployment.json
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        if: always()
+        with: { name: ec2-deployment, path: reports/, retention-days: 30 }

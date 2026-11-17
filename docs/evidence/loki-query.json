@@ -1,0 +1,502 @@
+[
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "1.831369",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "/metrics",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "200",
+      "time": "1794907890530"
+    },
+    "values": [
+      [
+        "1794907890530984835",
+        "{\"level\":30,\"time\":1794907890530,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"/metrics\",\"status_code\":200,\"duration_ms\":1.831369,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.390995",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "/",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "200",
+      "time": "1794907890153"
+    },
+    "values": [
+      [
+        "1794907890153451490",
+        "{\"level\":30,\"time\":1794907890153,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"/\",\"status_code\":200,\"duration_ms\":0.390995,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.34803900000000004",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "/",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "200",
+      "time": "1794907889695"
+    },
+    "values": [
+      [
+        "1794907889695583601",
+        "{\"level\":30,\"time\":1794907889695,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"/\",\"status_code\":200,\"duration_ms\":0.34803900000000004,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.332961",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "unmatched",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "404",
+      "time": "1794907890306"
+    },
+    "values": [
+      [
+        "1794907890306564496",
+        "{\"level\":30,\"time\":1794907890306,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"unmatched\",\"status_code\":404,\"duration_ms\":0.332961,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.328011",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "/",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "200",
+      "time": "1794907890000"
+    },
+    "values": [
+      [
+        "1794907890000856987",
+        "{\"level\":30,\"time\":1794907890000,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"/\",\"status_code\":200,\"duration_ms\":0.328011,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.314227",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "/",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "200",
+      "time": "1794907889848"
+    },
+    "values": [
+      [
+        "1794907889848460084",
+        "{\"level\":30,\"time\":1794907889848,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"/\",\"status_code\":200,\"duration_ms\":0.314227,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.305568",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "/",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "200",
+      "time": "1794907890762"
+    },
+    "values": [
+      [
+        "1794907890762940945",
+        "{\"level\":30,\"time\":1794907890762,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"/\",\"status_code\":200,\"duration_ms\":0.305568,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.29878899999999997",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "/",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "200",
+      "time": "1794907890457"
+    },
+    "values": [
+      [
+        "1794907890458060509",
+        "{\"level\":30,\"time\":1794907890457,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"/\",\"status_code\":200,\"duration_ms\":0.29878899999999997,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.295655",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "/",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "200",
+      "time": "1794907890305"
+    },
+    "values": [
+      [
+        "1794907890305496619",
+        "{\"level\":30,\"time\":1794907890305,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"/\",\"status_code\":200,\"duration_ms\":0.295655,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.294474",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "/",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "200",
+      "time": "1794907889543"
+    },
+    "values": [
+      [
+        "1794907889543409331",
+        "{\"level\":30,\"time\":1794907889543,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"/\",\"status_code\":200,\"duration_ms\":0.294474,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.2923",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "/",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "200",
+      "time": "1794907890610"
+    },
+    "values": [
+      [
+        "1794907890610415194",
+        "{\"level\":30,\"time\":1794907890610,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"/\",\"status_code\":200,\"duration_ms\":0.2923,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.261244",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "unmatched",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "404",
+      "time": "1794907890001"
+    },
+    "values": [
+      [
+        "1794907890001628912",
+        "{\"level\":30,\"time\":1794907890001,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"unmatched\",\"status_code\":404,\"duration_ms\":0.261244,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.239805",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "unmatched",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "404",
+      "time": "1794907890153"
+    },
+    "values": [
+      [
+        "1794907890153836664",
+        "{\"level\":30,\"time\":1794907890153,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"unmatched\",\"status_code\":404,\"duration_ms\":0.239805,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.228708",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "unmatched",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "404",
+      "time": "1794907890458"
+    },
+    "values": [
+      [
+        "1794907890458893406",
+        "{\"level\":30,\"time\":1794907890458,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"unmatched\",\"status_code\":404,\"duration_ms\":0.228708,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.22606500000000002",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "unmatched",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "404",
+      "time": "1794907889849"
+    },
+    "values": [
+      [
+        "1794907889849287553",
+        "{\"level\":30,\"time\":1794907889849,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"unmatched\",\"status_code\":404,\"duration_ms\":0.22606500000000002,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.216968",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "unmatched",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "404",
+      "time": "1794907890611"
+    },
+    "values": [
+      [
+        "1794907890611295335",
+        "{\"level\":30,\"time\":1794907890611,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"unmatched\",\"status_code\":404,\"duration_ms\":0.216968,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.204915",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "unmatched",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "404",
+      "time": "1794907889391"
+    },
+    "values": [
+      [
+        "1794907889391941441",
+        "{\"level\":30,\"time\":1794907889391,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"unmatched\",\"status_code\":404,\"duration_ms\":0.204915,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.19532100000000002",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "unmatched",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "404",
+      "time": "1794907889543"
+    },
+    "values": [
+      [
+        "1794907889544107131",
+        "{\"level\":30,\"time\":1794907889543,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"unmatched\",\"status_code\":404,\"duration_ms\":0.19532100000000002,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.18460300000000002",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "unmatched",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "404",
+      "time": "1794907889696"
+    },
+    "values": [
+      [
+        "1794907889696728929",
+        "{\"level\":30,\"time\":1794907889696,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"unmatched\",\"status_code\":404,\"duration_ms\":0.18460300000000002,\"msg\":\"request completed\"}"
+      ]
+    ]
+  },
+  {
+    "stream": {
+      "container": "devops-assessment-app-1",
+      "detected_level": "30",
+      "duration_ms": "0.160459",
+      "environment": "local",
+      "event": "http_request",
+      "level": "30",
+      "level_extracted": "30",
+      "method": "GET",
+      "msg": "request completed",
+      "route": "unmatched",
+      "service": "app",
+      "service_extracted": "devops-app",
+      "service_name": "app",
+      "status_code": "404",
+      "time": "1794907890763"
+    },
+    "values": [
+      [
+        "1794907890763395464",
+        "{\"level\":30,\"time\":1794907890763,\"service\":\"devops-app\",\"environment\":\"local\",\"event\":\"http_request\",\"method\":\"GET\",\"route\":\"unmatched\",\"status_code\":404,\"duration_ms\":0.160459,\"msg\":\"request completed\"}"
+      ]
+    ]
+  }
+]

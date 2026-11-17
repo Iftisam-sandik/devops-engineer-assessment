@@ -1,0 +1,14 @@
+{
+  "Id": "sha256:47b0cd22fe1ceaef68226a25bead77c6bbba5944131ed10b9f5523ef6ff9efd9",
+  "Size": 153440779,
+  "Architecture": "amd64",
+  "Os": "linux",
+  "User": "node",
+  "Labels": {
+    "org.opencontainers.image.description": "Observable Node.js assessment service",
+    "org.opencontainers.image.revision": "unknown",
+    "org.opencontainers.image.source": "https://github.com/Iftisam-sandik/devops-engineer-assessment",
+    "org.opencontainers.image.title": "DevOps Assessment",
+    "org.opencontainers.image.version": "1.0.0"
+  }
+}

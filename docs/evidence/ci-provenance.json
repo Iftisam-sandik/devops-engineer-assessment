@@ -1,0 +1,104 @@
+{
+  "run_id": 44056178080,
+  "run_url": "https://github.com/Iftisam-sandik/devops-engineer-assessment/actions/runs/44056178080",
+  "commit": "51cba65a0c910a98f8d9c0c3d4ac85e011e0924f",
+  "conclusion": "success",
+  "artifacts": [
+    {
+      "id": 14316705788,
+      "name": "monitoring-evidence",
+      "size_in_bytes": 256611,
+      "url": "https://api.github.com/repos/Iftisam-sandik/devops-engineer-assessment/actions/artifacts/14316705788",
+      "archive_download_url": "https://api.github.com/repos/Iftisam-sandik/devops-engineer-assessment/actions/artifacts/14316705788/zip",
+      "expired": false,
+      "created_at": "2026-11-17T09:34:10Z",
+      "expires_at": "2026-12-01T09:34:08Z",
+      "updated_at": "2026-11-17T09:34:10Z",
+      "digest": "sha256:6fa1fc67d2aba4dc980b8f49a7916b6f4e4ce16448b599d576bbabaadc55d49c",
+      "workflow_run": {
+        "id": 44056178080,
+        "repository_id": 1461008121,
+        "head_repository_id": 1461008121,
+        "head_branch": "feat/complete-devops-assessment",
+        "head_sha": "51cba65a0c910a98f8d9c0c3d4ac85e011e0924f"
+      }
+    },
+    {
+      "id": 14316142180,
+      "name": "tests-and-coverage",
+      "size_in_bytes": 62435,
+      "url": "https://api.github.com/repos/Iftisam-sandik/devops-engineer-assessment/actions/artifacts/14316142180",
+      "archive_download_url": "https://api.github.com/repos/Iftisam-sandik/devops-engineer-assessment/actions/artifacts/14316142180/zip",
+      "expired": false,
+      "created_at": "2026-11-17T09:31:29Z",
+      "expires_at": "2026-12-01T09:31:28Z",
+      "updated_at": "2026-11-17T09:31:29Z",
+      "digest": "sha256:89ef8583af4eb2f775ea1c5c9c26e9be7bef1e5a83d4edb74c4ce05b7e062086",
+      "workflow_run": {
+        "id": 44056178080,
+        "repository_id": 1461008121,
+        "head_repository_id": 1461008121,
+        "head_branch": "feat/complete-devops-assessment",
+        "head_sha": "51cba65a0c910a98f8d9c0c3d4ac85e011e0924f"
+      }
+    },
+    {
+      "id": 14316137080,
+      "name": "health-timer-evidence",
+      "size_in_bytes": 1378,
+      "url": "https://api.github.com/repos/Iftisam-sandik/devops-engineer-assessment/actions/artifacts/14316137080",
+      "archive_download_url": "https://api.github.com/repos/Iftisam-sandik/devops-engineer-assessment/actions/artifacts/14316137080/zip",
+      "expired": false,
+      "created_at": "2026-11-17T09:35:11Z",
+      "expires_at": "2026-12-01T09:35:10Z",
+      "updated_at": "2026-11-17T09:35:11Z",
+      "digest": "sha256:9cb4cb1a1a7b312ec71fda238828fec0f2eb4ba6764c5fb9ecc5dfe77e8ae202",
+      "workflow_run": {
+        "id": 44056178080,
+        "repository_id": 1461008121,
+        "head_repository_id": 1461008121,
+        "head_branch": "feat/complete-devops-assessment",
+        "head_sha": "51cba65a0c910a98f8d9c0c3d4ac85e011e0924f"
+      }
+    },
+    {
+      "id": 14316061999,
+      "name": "kubernetes-evidence",
+      "size_in_bytes": 2789,
+      "url": "https://api.github.com/repos/Iftisam-sandik/devops-engineer-assessment/actions/artifacts/14316061999",
+      "archive_download_url": "https://api.github.com/repos/Iftisam-sandik/devops-engineer-assessment/actions/artifacts/14316061999/zip",
+      "expired": false,
+      "created_at": "2026-11-17T09:32:59Z",
+      "expires_at": "2026-12-01T09:32:59Z",
+      "updated_at": "2026-11-17T09:32:59Z",
+      "digest": "sha256:ddc50eba58f92e403ef8f504967ed4d7ce91d7f333849aca4d959242893f9156",
+      "workflow_run": {
+        "id": 44056178080,
+        "repository_id": 1461008121,
+        "head_repository_id": 1461008121,
+        "head_branch": "feat/complete-devops-assessment",
+        "head_sha": "51cba65a0c910a98f8d9c0c3d4ac85e011e0924f"
+      }
+    },
+    {
+      "id": 14315169491,
+      "name": "image-security",
+      "size_in_bytes": 10453,
+      "url": "https://api.github.com/repos/Iftisam-sandik/devops-engineer-assessment/actions/artifacts/14315169491",
+      "archive_download_url": "https://api.github.com/repos/Iftisam-sandik/devops-engineer-assessment/actions/artifacts/14315169491/zip",
+      "expired": false,
+      "created_at": "2026-11-17T09:31:08Z",
+      "expires_at": "2026-12-01T09:31:07Z",
+      "updated_at": "2026-11-17T09:31:08Z",
+      "digest": "sha256:3e3e6cf157004944fe84e744eb7fd15add14d5c88d40be79f7e5c26210f2fe32",
+      "workflow_run": {
+        "id": 44056178080,
+        "repository_id": 1461008121,
+        "head_repository_id": 1461008121,
+        "head_branch": "feat/complete-devops-assessment",
+        "head_sha": "51cba65a0c910a98f8d9c0c3d4ac85e011e0924f"
+      }
+    }
+  ],
+  "artifact_sha256_verified": true
+}

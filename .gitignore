@@ -1,0 +1,16 @@
+node_modules/
+coverage/
+.env
+.env.*
+!.env.example
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform/
+*.auto.tfvars
+!terraform/environments/*.tfvars
+health_log.txt*
+*.log
+secrets/
+.kube/
+work/

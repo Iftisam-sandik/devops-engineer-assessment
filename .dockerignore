@@ -1,0 +1,16 @@
+.git
+.github
+node_modules
+coverage
+.env*
+terraform
+k8s
+monitoring
+docs
+test
+scripts
+*.md
+*.log
+health_log.txt*
+secrets
+work

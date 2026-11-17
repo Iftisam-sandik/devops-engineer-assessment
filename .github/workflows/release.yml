@@ -78,6 +78,17 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           provenance: mode=max
+      - name: Scan both published architectures before deployment
+        env:
+          IMAGE: ${{ steps.tags.outputs.ghcr }}
+          DIGEST: ${{ steps.build.outputs.digest }}
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p reports
+          for architecture in amd64 arm64; do
+            docker run --rm -e TRIVY_USERNAME -e TRIVY_PASSWORD -v "$PWD/reports:/reports" aquasec/trivy:0.76.2 image --db-repository ghcr.io/aquasecurity/trivy-db:2 --platform "linux/$architecture" --scanners vuln --severity CRITICAL --exit-code 1 --format json --output "/reports/trivy-$architecture.json" "$IMAGE@$DIGEST"
+          done
       - name: Record published image
         env:
           IMAGE: ${{ steps.tags.outputs.ghcr }}
@@ -87,7 +98,8 @@ jobs:
           docker buildx imagetools inspect "$IMAGE@$DIGEST" | tee reports/published-image.txt
           echo "Published $IMAGE@$DIGEST" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
-        with: { name: release-image, path: reports/published-image.txt, retention-days: 30 }
+        if: always()
+        with: { name: release-image, path: reports/, retention-days: 30 }
   deploy:
     needs: publish
     if: vars.AWS_DEPLOY_ENABLED == 'true'

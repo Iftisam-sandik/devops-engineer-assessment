@@ -9,6 +9,14 @@ lock_file=${DEPLOY_LOCK:-/var/lock/devops-app-deploy.lock}
 port=${APP_HOST_PORT:-8080}
 log_driver=${APP_LOG_DRIVER:-json-file}
 health_attempts=${HEALTH_ATTEMPTS:-30}
+[[ -r $env_file ]] || { echo 'Application environment file is not readable' >&2; exit 2; }
+[[ $port =~ ^[1-9][0-9]{0,4}$ && $port -le 65535 ]] || { echo 'Invalid host port' >&2; exit 2; }
+[[ $health_attempts =~ ^[1-9][0-9]*$ ]] || { echo 'Invalid health attempt count' >&2; exit 2; }
+case "$log_driver" in
+  awslogs) : "${AWS_REGION:?AWS_REGION required}" "${APP_LOG_GROUP:?APP_LOG_GROUP required}" ;;
+  json-file) ;;
+  *) echo 'Unsupported log driver' >&2; exit 2 ;;
+esac
 exec 9>"$lock_file"
 flock -n 9 || { echo 'Another deployment is running' >&2; exit 2; }
 docker pull "$image"
@@ -43,7 +51,6 @@ fi
 trap rollback ERR
 logging=(--log-driver "$log_driver")
 if [[ $log_driver == awslogs ]]; then
-  : "${AWS_REGION:?AWS_REGION required}" "${APP_LOG_GROUP:?APP_LOG_GROUP required}"
   logging+=(--log-opt "awslogs-region=$AWS_REGION" --log-opt "awslogs-group=$APP_LOG_GROUP" --log-opt "awslogs-stream=$app_name" --log-opt awslogs-create-group=false)
 else
   logging+=(--log-opt max-size=10m --log-opt max-file=3)

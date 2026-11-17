@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import threading
 import time
 import urllib.error
 import urllib.parse
@@ -29,6 +30,8 @@ auth = base64.b64encode(f'{user}:{password}'.encode()).decode()
 out = Path(os.environ.get('EVIDENCE_DIR', 'docs/evidence'))
 out.mkdir(parents=True, exist_ok=True)
 summary = {'timestamp_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), 'checks': {}}
+traffic_stop = threading.Event()
+traffic_thread = None
 
 
 def get(path):
@@ -58,6 +61,27 @@ def prom(query):
     return result['data']['result']
 
 
+def traffic():
+    # Continue across the deliberate outage; after recovery rates must have fresh samples.
+    while not traffic_stop.wait(0.15):
+        for path in ['/', '/unknown-example']:
+            try:
+                urllib.request.urlopen('http://127.0.0.1:8080' + path, timeout=2).read()
+            except (urllib.error.URLError, OSError):
+                pass
+
+
+def verify_application_rates():
+    queries = {
+        'request_rate': 'sum(rate(http_requests_total{job="app",route!~"/health|/metrics"}[40s]))',
+        'error_rate': 'sum(rate(http_errors_total{job="app"}[40s]))',
+        **{f'latency_p{int(q*100)}': f'histogram_quantile({q}, sum by (le) (rate(http_request_duration_seconds_bucket{{job="app"}}[40s])))' for q in [0.5, 0.95, 0.99]},
+    }
+    for name, query in queries.items():
+        result = wait_for(lambda: prom(query) if prom(query) and float(prom(query)[0]['value'][1]) > 0 else None, seconds=90)
+        summary['checks'][name] = result
+
+
 try:
     wait_for(lambda: get('/api/health').get('database') == 'ok')
     dashboards = wait_for(lambda: [d for d in get('/api/search?type=dash-db') if d['uid'] in {'application', 'host', 'containers'}])
@@ -65,14 +89,10 @@ try:
     summary['checks']['provisioned_dashboards'] = [d['uid'] for d in dashboards]
     up = wait_for(lambda: prom('up') if len(prom('up')) >= 4 and all(float(x['value'][1]) == 1 for x in prom('up')) else None)
     summary['checks']['scrape_targets'] = up
-    # Real traffic creates non-empty rate/histogram series and corresponding JSON logs.
-    for _ in range(40):
-        for path in ['/', '/unknown-example']:
-            try:
-                urllib.request.urlopen('http://127.0.0.1:8080' + path, timeout=3).read()
-            except urllib.error.HTTPError as error:
-                assert error.code == 404
-        time.sleep(0.25)
+    # Real traffic keeps every Application panel populated, including after restart.
+    traffic_thread = threading.Thread(target=traffic, daemon=True)
+    traffic_thread.start()
+    verify_application_rates()
     wait_for(lambda: prom('sum(http_requests_total{job="app"})'))
     summary['checks']['application_requests'] = prom('sum(http_requests_total{job="app"})')
     summary['checks']['application_errors'] = prom('sum(http_errors_total{job="app"})')
@@ -118,6 +138,7 @@ try:
         wait_for(lambda: all(float(x['value'][1]) == 1 for x in prom('up{job="app"}')) and prom('up{job="app"}'))
         wait_for(lambda: not prom('ALERTS{alertname="AppDown"}'))
         summary['checks']['actual_app_down_recovery'] = 'PASS'
+        verify_application_rates()
     if args.screenshots:
         from playwright.sync_api import sync_playwright
         screenshots = Path('docs/screenshots')
@@ -140,5 +161,8 @@ except Exception as error:
     summary['error'] = str(error)
     raise
 finally:
+    traffic_stop.set()
+    if traffic_thread:
+        traffic_thread.join(timeout=5)
     (out / 'monitoring-verification.json').write_text(json.dumps(summary, indent=2) + '\n')
     print(json.dumps(summary, indent=2))

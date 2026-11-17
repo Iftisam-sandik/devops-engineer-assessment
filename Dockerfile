@@ -13,8 +13,7 @@ LABEL org.opencontainers.image.title="DevOps Assessment" \
       org.opencontainers.image.description="Observable Node.js assessment service" \
       org.opencontainers.image.source="https://github.com/Iftisam-sandik/devops-engineer-assessment" \
       org.opencontainers.image.version="${APP_VERSION}" \
-      org.opencontainers.image.revision="${VCS_REF}" \
-      org.opencontainers.image.licenses="MIT"
+      org.opencontainers.image.revision="${VCS_REF}"
 ENV NODE_ENV=production PORT=8080 LOG_LEVEL=info ENVIRONMENT=production APP_VERSION=${APP_VERSION}
 WORKDIR /app
 COPY --from=dependencies --chown=node:node /app/node_modules ./node_modules

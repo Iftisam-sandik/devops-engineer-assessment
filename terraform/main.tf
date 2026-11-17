@@ -125,6 +125,9 @@ resource "aws_instance" "app" {
     encrypted             = true
     delete_on_termination = true
   }
+  credit_specification {
+    cpu_credits = "standard"
+  }
   user_data = templatefile("${path.module}/user_data.sh.tftpl", {
     environment    = var.environment
     region         = var.aws_region

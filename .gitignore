@@ -7,6 +7,8 @@ coverage/
 *.tfstate.*
 *.tfplan
 .terraform/
+terraform/bootstrap/backend.tf
+terraform/*backend.hcl
 *.auto.tfvars
 !terraform/environments/*.tfvars
 health_log.txt*

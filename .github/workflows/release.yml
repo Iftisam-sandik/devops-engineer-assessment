@@ -52,7 +52,7 @@ jobs:
           AWS_ENABLED: ${{ vars.AWS_DEPLOY_ENABLED }}
         run: |
           ghcr="ghcr.io/${REPOSITORY,,}"
-          version="$(node -p 'require("./package.json").version')-build.${GITHUB_RUN_NUMBER}"
+          version="$(node -p 'require("./package.json").version')-build.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}"
           {
             echo "ghcr=$ghcr"
             echo "version=$version"
@@ -60,7 +60,7 @@ jobs:
             echo "$ghcr:sha-$GITHUB_SHA"
             echo "$ghcr:$version"
             if [ "$AWS_ENABLED" = true ]; then
-              echo "$ECR_REPOSITORY:sha-$GITHUB_SHA"
+              echo "$ECR_REPOSITORY:sha-$GITHUB_SHA-$GITHUB_RUN_NUMBER-$GITHUB_RUN_ATTEMPT"
               echo "$ECR_REPOSITORY:$version"
             fi
             echo TAGS

@@ -2,7 +2,9 @@
 FROM node:24.22.3-alpine3.24 AS dependencies
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN --mount=type=cache,target=/root/.npm npm ci --omit=dev --ignore-scripts && npm cache clean --force
+RUN --mount=type=cache,target=/root/.npm --mount=type=secret,id=proxy_ca \
+    if [ -f /run/secrets/proxy_ca ]; then export NODE_EXTRA_CA_CERTS=/run/secrets/proxy_ca; fi; \
+    npm ci --omit=dev --ignore-scripts && npm cache clean --force
 
 FROM node:24.22.3-alpine3.24 AS runtime
 ARG APP_VERSION=1.0.0

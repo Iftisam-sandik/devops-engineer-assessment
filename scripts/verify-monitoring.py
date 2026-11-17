@@ -97,6 +97,12 @@ try:
     assert any('http_request' in value[1] for stream in logs for value in stream['values'])
     (out / 'loki-query.json').write_text(json.dumps(logs, indent=2) + '\n')
     summary['checks']['loki_stream_count'] = len(logs)
+    services = wait_for(lambda: get('/api/datasources/proxy/uid/loki/loki/api/v1/label/service/values').get('data'))
+    expected_services = {'app', 'prometheus', 'grafana', 'loki', 'alloy', 'node-exporter', 'cadvisor'}
+    assert expected_services <= set(services), services
+    summary['checks']['loki_services'] = services
+    assert any(stream['stream'].get('level') == '30' for stream in logs), 'App JSON level label is missing'
+    summary['checks']['parsed_json_level_label'] = 'PASS'
     rules = get('/api/datasources/proxy/uid/prometheus/api/v1/rules')['data']['groups']
     names = {rule['name'] for group in rules for rule in group['rules']}
     assert {'AppDown', 'HighAppErrorRate', 'HostDiskAlmostFull', 'ContainerMemoryNearLimit'} <= names

@@ -10,7 +10,8 @@ Usage: system_health.sh [--json] [--cpu 90] [--mem 85] [--disk 80]
        [--critical 95] [--log /path/health_log.txt]
        [--max-log-bytes 1048576] [--keep 3] [--help]
 Linux host metrics from /proc, GNU df and procps ps. All mounted filesystems,
-including virtual filesystems, are listed. Zero-size filesystems do not alert.
+including virtual filesystems, are listed. Zero-size and inherently read-only
+filesystems (such as squashfs ISO images) do not alert.
 Thresholds are percentages (0..100); critical must be >= warning thresholds.
 Exit: 0 healthy, 1 warning, 2 critical/collection or argument error.
 Warnings go to stderr; --json emits one valid JSON object to stdout and the log.
@@ -50,7 +51,7 @@ escape_json() {
   text=${text//$'\n'/\\n}; text=${text//$'\r'/\\r}; text=${text//$'\t'/\\t}
   printf '%s' "$text"
 }
-cpu_sample() { awk '/^cpu / {total=0; for(i=2;i<=9;i++) total+=$i; print total, $5+$6; exit}' /proc/stat; }
+cpu_sample() { awk '/^cpu / {total=0; for(i=2;i<=9;i++) total+=$i; printf "%.0f %.0f\n", total, $5+$6; exit}' /proc/stat; }
 read -r total_before idle_before < <(cpu_sample)
 sleep 1
 read -r total_after idle_after < <(cpu_sample)
@@ -61,21 +62,24 @@ timestamp=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 status=0 warnings=() disks=() processes=()
 check_threshold() {
   local name=$1 value=$2 warning=$3
-  if awk -v value="$value" -v critical="$critical_threshold" 'BEGIN {exit !(value>=critical)}'; then
-    status=2; warnings+=("$name at $value% (critical >= $critical_threshold%)")
-  elif awk -v value="$value" -v warning="$warning" 'BEGIN {exit !(value>=warning)}'; then
+  if awk -v value="$value" -v critical="$critical_threshold" 'BEGIN {exit !(value>critical)}'; then
+    status=2; warnings+=("$name at $value% (critical > $critical_threshold%)")
+  elif awk -v value="$value" -v warning="$warning" 'BEGIN {exit !(value>warning)}'; then
     ((status >= 1)) || status=1
-    warnings+=("$name at $value% (warning >= $warning%)")
+    warnings+=("$name at $value% (warning > $warning%)")
   fi
 }
 check_threshold CPU "$cpu" "$cpu_threshold"
 check_threshold Memory "$memory" "$mem_threshold"
-disk_output=$(df -P -B1 --all)
-while read -r filesystem size used available percent mount; do
+disk_output=$(df -PT -B1 --all)
+while read -r filesystem fstype size used available percent mount; do
   [[ $size =~ ^[0-9]+$ ]] || continue
   percent=${percent%\%}; [[ $percent =~ ^[0-9]+$ ]] || percent=0
-  disks+=("{\"filesystem\":\"$(escape_json "$filesystem")\",\"mount\":\"$(escape_json "$mount")\",\"size_bytes\":$size,\"used_bytes\":$used,\"available_bytes\":$available,\"used_percent\":$percent}")
-  if ((size > 0)); then check_threshold "Disk $mount" "$percent" "$disk_threshold"; fi
+  eligible=true
+  case "$fstype" in squashfs|iso9660|udf|erofs) eligible=false ;; esac
+  ((size > 0)) || eligible=false
+  disks+=("{\"filesystem\":\"$(escape_json "$filesystem")\",\"fstype\":\"$(escape_json "$fstype")\",\"mount\":\"$(escape_json "$mount")\",\"size_bytes\":$size,\"used_bytes\":$used,\"available_bytes\":$available,\"used_percent\":$percent,\"alerting_eligible\":$eligible}")
+  if $eligible; then check_threshold "Disk $mount" "$percent" "$disk_threshold"; fi
 done <<< "$disk_output"
 process_output=$(ps -eo pid=,%mem=,comm= --sort=-%mem)
 count=0

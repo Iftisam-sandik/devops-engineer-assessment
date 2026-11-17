@@ -262,7 +262,7 @@ Verified main releases publish to ECR after approved setup. SSM runs root-owned 
 
 The transaction takes a flock, pulls before touching the current container, retains the previous container/image/config, starts the hardened candidate, and polls /health. Failure removes the candidate, restores/starts the previous container and checks recovery. CI fails even after a successful rollback. First deployment has no previous image. Single-instance EC2 replacement has brief downtime; zero downtime is demonstrated separately in Kubernetes. A production EC2 improvement is a load balancer with two targets.
 
-**Actual local test:** initial version deployed; wrong-port candidate failed; ROLLBACK_SUCCEEDED appeared; previous version 1.0.0 returned healthy. See [transaction output](docs/evidence/deployment-transaction.txt). This tests real Docker rollback but does not assert AWS deployment success.
+**Actual container test:** an initial image deployed, a distinct image with a wrong-port process failed, ROLLBACK_SUCCEEDED appeared, and the original image ID/configuration and version 1.0.0 were verified. Invalid config leaves the running container untouched. This also runs in the CI image job. Reproduce with `python3 scripts/test-deploy.py --image devops-assessment:1.0.0`. See [transaction output](docs/evidence/deployment-transaction.txt) and [image identities](docs/evidence/deployment-transaction.json). This tests real Docker rollback but does not assert AWS deployment success.
 
 ## Kubernetes deployment
 

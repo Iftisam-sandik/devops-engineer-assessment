@@ -57,9 +57,16 @@ jobs:
           mkdir -p reports
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock:ro -v "$PWD/reports:/reports" aquasec/trivy:0.76.2 image --db-repository ghcr.io/aquasecurity/trivy-db:2 --scanners vuln --severity CRITICAL --exit-code 1 --format json --output /reports/trivy.json assessment:ci
           docker image inspect assessment:ci --format '{{json .}}' > reports/image-inspect.json
+      - name: Real failed-image deployment and previous-image rollback
+        run: python3 scripts/test-deploy.py
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         if: always()
-        with: { name: image-security, path: reports/, retention-days: 14 }
+        with:
+          name: image-security
+          path: |
+            reports/
+            docs/evidence/deployment-transaction.*
+          retention-days: 14
   kubernetes:
     runs-on: ubuntu-24.04
     timeout-minutes: 20

@@ -20,7 +20,7 @@ The application, Docker packaging, CI/release definitions, Terraform, Kubernetes
 | Alerts | Four real promtool rule tests evaluate thresholds/pending durations using synthetic input series. A separate live app outage demonstrates firing/recovery. Other production incidents are not fabricated. |
 | Linux automation | Actual healthy/warning/critical exits 0/1/2, JSON, all-filesystem listing, top five processes, invalid flags/help, human log and bounded rotation checks. The real systemd five-minute timer fired with exit 0. |
 | Terraform | Both stacks initialized without remote backends and validated; provider hashes locked. Remote state, authenticated plan/apply, IAM effectiveness, EC2 bootstrap/health, CloudWatch delivery and destruction remain unverified. |
-| Rollback transaction | Real local registry/containers: good release starts, wrong-port candidate fails, previous image/config is restored and health/version are verified. Invalid config is rejected before touching the running container. This is not EC2 evidence. |
+| Rollback transaction | Real local registry/containers: a good image starts, a distinct wrong-port image fails, the original image ID/configuration is restored and health/version are verified. The transaction is also a mandatory CI image-job check. Invalid config is rejected before touching the running container. This is not EC2 evidence. |
 
 ## Evidence index
 

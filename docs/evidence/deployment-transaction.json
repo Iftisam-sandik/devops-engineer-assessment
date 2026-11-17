@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "initial_image_id": "sha256:8a783375f8c6f2a85dcd703719c74044cd1f82ebb7b9a9d5ce8e4a57fd88c128",
+  "failed_candidate_image_id": "sha256:d1e686a01356f033f718f966cbf77904e7f371e92e2a2c292916cddae2d3e9a7",
+  "restored_image_id": "sha256:8a783375f8c6f2a85dcd703719c74044cd1f82ebb7b9a9d5ce8e4a57fd88c128",
+  "failed_deploy_exit": 1,
+  "invalid_config_exit": 2,
+  "restored_version": "1.0.0",
+  "scope": "real local Docker registry/containers; not AWS"
+}

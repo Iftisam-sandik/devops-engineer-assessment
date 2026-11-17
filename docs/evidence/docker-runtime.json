@@ -1,0 +1,24 @@
+{
+  "result": "PASS",
+  "image_id": "sha256:8a783375f8c6f2a85dcd703719c74044cd1f82ebb7b9a9d5ce8e4a57fd88c128",
+  "size_bytes": 153435869,
+  "user_id": "1000",
+  "root_response": {
+    "message": "Hello from DevOps Task!",
+    "status": "running",
+    "version": "1.0.0"
+  },
+  "read_only_write_rejected": true,
+  "package_managers_absent": [
+    "npm",
+    "yarn"
+  ],
+  "SIGTERM_exit_code": 0,
+  "shutdown_log_events": [
+    "server_started",
+    "http_request",
+    "http_request",
+    "shutdown_started",
+    "shutdown_complete"
+  ]
+}

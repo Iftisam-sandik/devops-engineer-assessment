@@ -1,0 +1,8 @@
+NAME                                IMAGE                              COMMAND                  SERVICE         CREATED              STATUS                        PORTS
+devops-assessment-alloy-1           grafana/alloy:v1.11.1              "/bin/alloy run --st…"   alloy           2 minutes ago        Up 2 minutes                  
+devops-assessment-app-1             devops-assessment:1.0.0            "node src/server.js"     app             About a minute ago   Up About a minute (healthy)   127.0.0.1:8080->8080/tcp
+devops-assessment-cadvisor-1        gcr.io/cadvisor/cadvisor:v0.52.1   "/usr/bin/cadvisor -…"   cadvisor        2 minutes ago        Up 2 minutes (healthy)        
+devops-assessment-grafana-1         grafana/grafana:12.2.0             "/run.sh"                grafana         2 minutes ago        Up 2 minutes                  127.0.0.1:3000->3000/tcp
+devops-assessment-loki-1            grafana/loki:3.5.5                 "/usr/bin/loki -conf…"   loki            2 minutes ago        Up 2 minutes                  
+devops-assessment-node-exporter-1   prom/node-exporter:v1.9.1          "/bin/node_exporter …"   node-exporter   2 minutes ago        Up 2 minutes                  
+devops-assessment-prometheus-1      prom/prometheus:v3.5.0             "/bin/prometheus --c…"   prometheus      2 minutes ago        Up 2 minutes                  

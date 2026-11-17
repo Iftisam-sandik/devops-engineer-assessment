@@ -1,0 +1,152 @@
+{
+  "timestamp_utc": "2026-11-17T08:45:04Z",
+  "checks": {
+    "provisioned_dashboards": [
+      "application",
+      "containers",
+      "host"
+    ],
+    "scrape_targets": [
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "node-exporter:9100",
+          "job": "node"
+        },
+        "value": [
+          1794905109.689,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "localhost:9090",
+          "job": "prometheus"
+        },
+        "value": [
+          1794905109.689,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "app:8080",
+          "job": "app"
+        },
+        "value": [
+          1794905109.689,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor"
+        },
+        "value": [
+          1794905109.689,
+          "1"
+        ]
+      }
+    ],
+    "application_requests": [
+      {
+        "metric": {},
+        "value": [
+          1794905119.981,
+          "120"
+        ]
+      }
+    ],
+    "application_errors": [
+      {
+        "metric": {},
+        "value": [
+          1794905119.988,
+          "36"
+        ]
+      }
+    ],
+    "latency_buckets": [
+      {
+        "metric": {},
+        "value": [
+          1794905119.996,
+          "44"
+        ]
+      }
+    ],
+    "node_cpu_seconds_total": [
+      {
+        "metric": {},
+        "value": [
+          1794905120.004,
+          "24"
+        ]
+      }
+    ],
+    "node_memory_MemAvailable_bytes": [
+      {
+        "metric": {},
+        "value": [
+          1794905120.014,
+          "1"
+        ]
+      }
+    ],
+    "node_filesystem_size_bytes": [
+      {
+        "metric": {},
+        "value": [
+          1794905120.022,
+          "3"
+        ]
+      }
+    ],
+    "node_network_receive_bytes_total": [
+      {
+        "metric": {},
+        "value": [
+          1794905120.03,
+          "2"
+        ]
+      }
+    ],
+    "container_working_sets": [],
+    "container_limits": [],
+    "container_metrics_status": "BLOCKED: runtime exposes no per-container cgroups/limits",
+    "loki_stream_count": 20,
+    "loaded_alert_rules": [
+      "AppDown",
+      "ContainerMemoryNearLimit",
+      "HighAppErrorRate",
+      "HostDiskAlmostFull"
+    ],
+    "actual_app_down_firing": [
+      {
+        "metric": {
+          "__name__": "ALERTS",
+          "alertname": "AppDown",
+          "alertstate": "firing",
+          "instance": "app:8080",
+          "job": "app",
+          "severity": "critical"
+        },
+        "value": [
+          1794905195.714,
+          "1"
+        ]
+      }
+    ],
+    "actual_app_down_recovery": "PASS",
+    "screenshots": [
+      "application.png",
+      "host.png",
+      "containers.png"
+    ]
+  },
+  "result": "PARTIAL: container metrics BLOCKED"
+}

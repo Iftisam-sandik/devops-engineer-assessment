@@ -1,0 +1,8 @@
+{
+  "image_id": "sha256:8a783375f8c6f2a85dcd703719c74044cd1f82ebb7b9a9d5ce8e4a57fd88c128",
+  "size_bytes": 153435869,
+  "severity_counts": {
+    "MEDIUM": 1
+  },
+  "critical_gate": "PASS"
+}

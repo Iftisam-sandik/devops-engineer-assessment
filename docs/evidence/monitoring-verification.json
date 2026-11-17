@@ -1,0 +1,555 @@
+{
+  "timestamp_utc": "2026-11-17T09:31:10Z",
+  "checks": {
+    "provisioned_dashboards": [
+      "application",
+      "containers",
+      "host"
+    ],
+    "scrape_targets": [
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "app:8080",
+          "job": "app"
+        },
+        "value": [
+          1794907875.963,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor"
+        },
+        "value": [
+          1794907875.963,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "node-exporter:9100",
+          "job": "node"
+        },
+        "value": [
+          1794907875.963,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "up",
+          "instance": "localhost:9090",
+          "job": "prometheus"
+        },
+        "value": [
+          1794907875.963,
+          "1"
+        ]
+      }
+    ],
+    "request_rate": [
+      {
+        "metric": {},
+        "value": [
+          1794907981.788,
+          "4.809825"
+        ]
+      }
+    ],
+    "error_rate": [
+      {
+        "metric": {},
+        "value": [
+          1794907981.803,
+          "2.4073499999999997"
+        ]
+      }
+    ],
+    "latency_p50": [
+      {
+        "metric": {},
+        "value": [
+          1794907981.819,
+          "0.0025"
+        ]
+      }
+    ],
+    "latency_p95": [
+      {
+        "metric": {},
+        "value": [
+          1794907981.837,
+          "0.00475"
+        ]
+      }
+    ],
+    "latency_p99": [
+      {
+        "metric": {},
+        "value": [
+          1794907981.852,
+          "0.0049499999999999995"
+        ]
+      }
+    ],
+    "application_requests": [
+      {
+        "metric": {},
+        "value": [
+          1794907891.072,
+          "194"
+        ]
+      }
+    ],
+    "application_errors": [
+      {
+        "metric": {},
+        "value": [
+          1794907891.077,
+          "95"
+        ]
+      }
+    ],
+    "latency_buckets": [
+      {
+        "metric": {},
+        "value": [
+          1794907891.127,
+          "44"
+        ]
+      }
+    ],
+    "node_cpu_seconds_total": [
+      {
+        "metric": {},
+        "value": [
+          1794907891.132,
+          "32"
+        ]
+      }
+    ],
+    "node_memory_MemAvailable_bytes": [
+      {
+        "metric": {},
+        "value": [
+          1794907891.137,
+          "1"
+        ]
+      }
+    ],
+    "node_filesystem_size_bytes": [
+      {
+        "metric": {},
+        "value": [
+          1794907891.142,
+          "6"
+        ]
+      }
+    ],
+    "node_network_receive_bytes_total": [
+      {
+        "metric": {},
+        "value": [
+          1794907891.147,
+          "2"
+        ]
+      }
+    ],
+    "container_working_sets": [
+      {
+        "metric": {
+          "__name__": "container_memory_working_set_bytes",
+          "container_label_com_docker_compose_config_hash": "0607ff573969e8c86e862bb3e1943e43a8642fda0038f14b3920c7ac632b8c01",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:de1f4a4d7753c17e3434de26a9473fc95743267c9010e572bbdeb90df11c050e",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "cadvisor",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "id": "/system.slice/docker-8e8deba7c4d4698d81740a24bc79c5f9a0da36c933e0f19aecb4d3ff1f34c2e9.scope",
+          "image": "gcr.io/cadvisor/cadvisor:v0.52.1",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-cadvisor-1"
+        },
+        "value": [
+          1794907891.152,
+          "16732160"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_memory_working_set_bytes",
+          "container_label_com_docker_compose_config_hash": "2a062afa2f0f8cefd993ba08f291279b4901d8473471e8e59c6aeb500bf4c188",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "app",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "container_label_org_opencontainers_image_description": "Observable Node.js assessment service",
+          "container_label_org_opencontainers_image_revision": "unknown",
+          "container_label_org_opencontainers_image_source": "https://github.com/Iftisam-sandik/devops-engineer-assessment",
+          "container_label_org_opencontainers_image_title": "DevOps Assessment",
+          "container_label_org_opencontainers_image_version": "1.0.0",
+          "id": "/system.slice/docker-3a98df52a2fa95dd23141a3c1fc2c2c3c59f6d714ce1f8de8ba5a4999ebc1ddf.scope",
+          "image": "devops-assessment:1.0.0",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-app-1"
+        },
+        "value": [
+          1794907891.152,
+          "24739840"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_memory_working_set_bytes",
+          "container_label_com_docker_compose_config_hash": "5e428be426a82f24c654ae086ef630413f0373fa1654b542568b0992fa1c8bd9",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:f020b338a2418d4fe5452dcd83a72646069869388b0d3385463d03fb05d8b4eb",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "alloy",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "container_label_org_opencontainers_image_ref_name": "ubuntu",
+          "container_label_org_opencontainers_image_source": "https://github.com/grafana/alloy",
+          "container_label_org_opencontainers_image_version": "24.04",
+          "id": "/system.slice/docker-b6ca412d77a2ef6211ed6b427a24bafa5315c068b5163887ad38fbb07577777c.scope",
+          "image": "grafana/alloy:v1.11.1",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-alloy-1"
+        },
+        "value": [
+          1794907891.152,
+          "35295232"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_memory_working_set_bytes",
+          "container_label_com_docker_compose_config_hash": "8b15f5115d226a63998d8a9c089bfd70561bffc766c44114d35ae6492764b217",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:1849e214042195711652c68c2cbcd39d1ee3d01fed02fa1bff53728590fa4dd7",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "grafana",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "container_label_maintainer": "Grafana Labs <hello@grafana.com>",
+          "container_label_org_opencontainers_image_source": "https://github.com/grafana/grafana",
+          "id": "/system.slice/docker-a0cd0c6bda49152129743b2b504618fcfcd12a27d97033ed2f7adae33815d4e6.scope",
+          "image": "grafana/grafana:12.2.0",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-grafana-1"
+        },
+        "value": [
+          1794907891.152,
+          "125718528"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_memory_working_set_bytes",
+          "container_label_com_docker_compose_config_hash": "d41852cc10f64f919c517a239f54b293bfcfea8c9340042f7fca4a72fcec3516",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:fd1a879e62ca9d47558fee718af5e745bd381b20be50723d0047615f46c8b64d",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "loki",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "id": "/system.slice/docker-84c51f87f314b408016910d40dd4ddf95367fdf66334dec22ae576f66a30d018.scope",
+          "image": "grafana/loki:3.5.5",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-loki-1"
+        },
+        "value": [
+          1794907891.152,
+          "33943552"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_memory_working_set_bytes",
+          "container_label_com_docker_compose_config_hash": "da91a851a50665c58d4d6838b0f03575e95e0f190000c82c75d2e149eb9eb3f8",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:a3bc50fcb50fb1409287c32773d8fe799f6cad5511c4ba3e2e851784e7a05026",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "prometheus",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "container_label_maintainer": "The Prometheus Authors <prometheus-developers@googlegroups.com>",
+          "container_label_org_opencontainers_image_source": "https://github.com/prometheus/prometheus",
+          "id": "/system.slice/docker-036130174f5fd73915860e7f06a940fd0b648dcbf76193eab86bb4b0359eff42.scope",
+          "image": "prom/prometheus:v3.5.0",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-prometheus-1"
+        },
+        "value": [
+          1794907891.152,
+          "31735808"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_memory_working_set_bytes",
+          "container_label_com_docker_compose_config_hash": "fbf329a326d228a76e93246fb8da237dcf2eed1e13594e45affd24e7f40cfdcf",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:255ec253085fb105696533b31864a5e3b64f1f1e2147b5ec368100cbf3ec9b80",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "node-exporter",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "container_label_maintainer": "The Prometheus Authors <prometheus-developers@googlegroups.com>",
+          "id": "/system.slice/docker-eaef5b4086060b40352013214a5660e1ec14539b9e36ea827b779e723e0d2fd7.scope",
+          "image": "prom/node-exporter:v1.9.1",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-node-exporter-1"
+        },
+        "value": [
+          1794907891.152,
+          "7565312"
+        ]
+      }
+    ],
+    "container_limits": [
+      {
+        "metric": {
+          "__name__": "container_spec_memory_limit_bytes",
+          "container_label_com_docker_compose_config_hash": "0607ff573969e8c86e862bb3e1943e43a8642fda0038f14b3920c7ac632b8c01",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:de1f4a4d7753c17e3434de26a9473fc95743267c9010e572bbdeb90df11c050e",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "cadvisor",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "id": "/system.slice/docker-8e8deba7c4d4698d81740a24bc79c5f9a0da36c933e0f19aecb4d3ff1f34c2e9.scope",
+          "image": "gcr.io/cadvisor/cadvisor:v0.52.1",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-cadvisor-1"
+        },
+        "value": [
+          1794907891.158,
+          "268435456"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_spec_memory_limit_bytes",
+          "container_label_com_docker_compose_config_hash": "2a062afa2f0f8cefd993ba08f291279b4901d8473471e8e59c6aeb500bf4c188",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "app",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "container_label_org_opencontainers_image_description": "Observable Node.js assessment service",
+          "container_label_org_opencontainers_image_revision": "unknown",
+          "container_label_org_opencontainers_image_source": "https://github.com/Iftisam-sandik/devops-engineer-assessment",
+          "container_label_org_opencontainers_image_title": "DevOps Assessment",
+          "container_label_org_opencontainers_image_version": "1.0.0",
+          "id": "/system.slice/docker-3a98df52a2fa95dd23141a3c1fc2c2c3c59f6d714ce1f8de8ba5a4999ebc1ddf.scope",
+          "image": "devops-assessment:1.0.0",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-app-1"
+        },
+        "value": [
+          1794907891.158,
+          "134217728"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_spec_memory_limit_bytes",
+          "container_label_com_docker_compose_config_hash": "5e428be426a82f24c654ae086ef630413f0373fa1654b542568b0992fa1c8bd9",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:f020b338a2418d4fe5452dcd83a72646069869388b0d3385463d03fb05d8b4eb",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "alloy",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "container_label_org_opencontainers_image_ref_name": "ubuntu",
+          "container_label_org_opencontainers_image_source": "https://github.com/grafana/alloy",
+          "container_label_org_opencontainers_image_version": "24.04",
+          "id": "/system.slice/docker-b6ca412d77a2ef6211ed6b427a24bafa5315c068b5163887ad38fbb07577777c.scope",
+          "image": "grafana/alloy:v1.11.1",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-alloy-1"
+        },
+        "value": [
+          1794907891.158,
+          "268435456"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_spec_memory_limit_bytes",
+          "container_label_com_docker_compose_config_hash": "8b15f5115d226a63998d8a9c089bfd70561bffc766c44114d35ae6492764b217",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:1849e214042195711652c68c2cbcd39d1ee3d01fed02fa1bff53728590fa4dd7",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "grafana",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "container_label_maintainer": "Grafana Labs <hello@grafana.com>",
+          "container_label_org_opencontainers_image_source": "https://github.com/grafana/grafana",
+          "id": "/system.slice/docker-a0cd0c6bda49152129743b2b504618fcfcd12a27d97033ed2f7adae33815d4e6.scope",
+          "image": "grafana/grafana:12.2.0",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-grafana-1"
+        },
+        "value": [
+          1794907891.158,
+          "402653184"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_spec_memory_limit_bytes",
+          "container_label_com_docker_compose_config_hash": "d41852cc10f64f919c517a239f54b293bfcfea8c9340042f7fca4a72fcec3516",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:fd1a879e62ca9d47558fee718af5e745bd381b20be50723d0047615f46c8b64d",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "loki",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "id": "/system.slice/docker-84c51f87f314b408016910d40dd4ddf95367fdf66334dec22ae576f66a30d018.scope",
+          "image": "grafana/loki:3.5.5",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-loki-1"
+        },
+        "value": [
+          1794907891.158,
+          "402653184"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_spec_memory_limit_bytes",
+          "container_label_com_docker_compose_config_hash": "da91a851a50665c58d4d6838b0f03575e95e0f190000c82c75d2e149eb9eb3f8",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:a3bc50fcb50fb1409287c32773d8fe799f6cad5511c4ba3e2e851784e7a05026",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "prometheus",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "container_label_maintainer": "The Prometheus Authors <prometheus-developers@googlegroups.com>",
+          "container_label_org_opencontainers_image_source": "https://github.com/prometheus/prometheus",
+          "id": "/system.slice/docker-036130174f5fd73915860e7f06a940fd0b648dcbf76193eab86bb4b0359eff42.scope",
+          "image": "prom/prometheus:v3.5.0",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-prometheus-1"
+        },
+        "value": [
+          1794907891.158,
+          "402653184"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "container_spec_memory_limit_bytes",
+          "container_label_com_docker_compose_config_hash": "fbf329a326d228a76e93246fb8da237dcf2eed1e13594e45affd24e7f40cfdcf",
+          "container_label_com_docker_compose_container_number": "1",
+          "container_label_com_docker_compose_image": "sha256:255ec253085fb105696533b31864a5e3b64f1f1e2147b5ec368100cbf3ec9b80",
+          "container_label_com_docker_compose_oneoff": "False",
+          "container_label_com_docker_compose_project": "devops-assessment",
+          "container_label_com_docker_compose_project_config_files": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.yml,/home/runner/work/devops-engineer-assessment/devops-engineer-assessment/docker-compose.monitoring.yml",
+          "container_label_com_docker_compose_project_working_dir": "/home/runner/work/devops-engineer-assessment/devops-engineer-assessment",
+          "container_label_com_docker_compose_service": "node-exporter",
+          "container_label_com_docker_compose_version": "2.38.2",
+          "container_label_maintainer": "The Prometheus Authors <prometheus-developers@googlegroups.com>",
+          "id": "/system.slice/docker-eaef5b4086060b40352013214a5660e1ec14539b9e36ea827b779e723e0d2fd7.scope",
+          "image": "prom/node-exporter:v1.9.1",
+          "instance": "cadvisor:8080",
+          "job": "cadvisor",
+          "name": "devops-assessment-node-exporter-1"
+        },
+        "value": [
+          1794907891.158,
+          "67108864"
+        ]
+      }
+    ],
+    "container_metrics_status": "PASS",
+    "loki_stream_count": 20,
+    "loki_services": [
+      "alloy",
+      "app",
+      "cadvisor",
+      "grafana",
+      "loki",
+      "node-exporter",
+      "prometheus"
+    ],
+    "parsed_json_level_label": "PASS",
+    "loaded_alert_rules": [
+      "AppDown",
+      "ContainerMemoryNearLimit",
+      "HighAppErrorRate",
+      "HostDiskAlmostFull"
+    ],
+    "actual_app_down_firing": [
+      {
+        "metric": {
+          "__name__": "ALERTS",
+          "alertname": "AppDown",
+          "alertstate": "firing",
+          "instance": "app:8080",
+          "job": "app",
+          "severity": "critical"
+        },
+        "value": [
+          1794907966.545,
+          "1"
+        ]
+      }
+    ],
+    "actual_app_down_recovery": "PASS",
+    "screenshots": [
+      "application.png",
+      "host.png",
+      "containers.png"
+    ]
+  },
+  "result": "PASS"
+}

@@ -1,0 +1,78 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.68kB done
+#1 DONE 0.0s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1.7
+#2 DONE 0.2s
+
+#3 docker-image://docker.io/docker/dockerfile:1.7@sha256:a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/library/node:24.22.3-alpine3.24
+#4 DONE 0.0s
+
+#5 [internal] load metadata for docker.io/library/alpine:3.24.4
+#5 DONE 1.3s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 164B done
+#6 DONE 0.0s
+
+#7 [dependencies 1/4] FROM docker.io/library/node:24.22.3-alpine3.24
+#7 DONE 0.0s
+
+#8 [internal] load build context
+#8 transferring context: 191B done
+#8 DONE 0.0s
+
+#9 [dependencies 2/4] WORKDIR /app
+#9 CACHED
+
+#10 [dependencies 3/4] COPY package.json package-lock.json ./
+#10 CACHED
+
+#11 [dependencies 4/4] RUN --mount=type=cache,target=/root/.npm --mount=type=secret,id=proxy_ca     if [ -f /run/secrets/proxy_ca ]; then export NODE_EXTRA_CA_CERTS=/run/secrets/proxy_ca; fi;     npm ci --omit=dev --ignore-scripts && npm cache clean --force
+#11 CACHED
+
+#12 [runtime  1/10] FROM docker.io/library/alpine:3.24.4@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
+#12 resolve docker.io/library/alpine:3.24.4@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf done
+#12 sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf 9.22kB / 9.22kB done
+#12 sha256:0f49f331d9212aff11b932863be4eb01cdf962969aa86dab7d1ee21ac6f5f52b 1.02kB / 1.02kB done
+#12 sha256:3ea06e4cb95e726ea6c6cc4377570ac4c4050d78710004cbd631ca809daf7e8e 611B / 611B done
+#12 DONE 0.0s
+
+#13 [runtime  2/10] RUN addgroup -g 1000 node && adduser -D -H -u 1000 -G node node
+#13 DONE 0.3s
+
+#14 [runtime  3/10] COPY --from=dependencies /usr/local/bin/node /usr/local/bin/node
+#14 DONE 0.5s
+
+#15 [runtime  4/10] COPY --from=dependencies /usr/lib/libstdc++.so.6* /usr/lib/
+#15 DONE 0.5s
+
+#16 [runtime  5/10] COPY --from=dependencies /usr/lib/libgcc_s.so.1 /usr/lib/
+#16 DONE 0.5s
+
+#17 [runtime  6/10] COPY --from=dependencies /usr/lib/libatomic.so.1* /usr/lib/
+#17 DONE 0.6s
+
+#18 [runtime  7/10] WORKDIR /app
+#18 DONE 0.5s
+
+#19 [runtime  8/10] COPY --from=dependencies --chown=node:node /app/node_modules ./node_modules
+#19 DONE 1.2s
+
+#20 [runtime  9/10] COPY --chown=node:node package.json ./
+#20 DONE 0.8s
+
+#21 [runtime 10/10] COPY --chown=node:node src ./src
+#21 DONE 0.5s
+
+#22 exporting to image
+#22 exporting layers
+#22 exporting layers 0.4s done
+#22 writing image sha256:8a783375f8c6f2a85dcd703719c74044cd1f82ebb7b9a9d5ce8e4a57fd88c128 done
+#22 naming to docker.io/library/devops-assessment:1.0.0 done
+#22 DONE 0.4s

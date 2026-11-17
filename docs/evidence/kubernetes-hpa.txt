@@ -1,0 +1,5 @@
+NAME   REFERENCE        TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+app    Deployment/app   cpu: 4%/70%   2         4         2          68s
+NAME                   CPU(cores)   MEMORY(bytes)   
+app-5c45f7bc67-m595c   4m           22Mi            
+app-5c45f7bc67-sqgz9   4m           22Mi            

@@ -1,0 +1,21 @@
+1.0.0: Pulling from assessment
+Digest: sha256:3bb4da937bdc427d139507257cd75b16b2530124dca9a9039c85135916d15eec
+Status: Image is up to date for localhost:5000/assessment:1.0.0
+localhost:5000/assessment:1.0.0
+curl: (52) Empty reply from server
+{"status":"healthy"}DEPLOY_SUCCEEDED image=localhost:5000/assessment:1.0.0
+1.0.1: Pulling from assessment
+Digest: sha256:3bb4da937bdc427d139507257cd75b16b2530124dca9a9039c85135916d15eec
+Status: Image is up to date for localhost:5000/assessment:1.0.1
+localhost:5000/assessment:1.0.1
+curl: (52) Empty reply from server
+curl: (52) Empty reply from server
+curl: (52) Empty reply from server
+Deployment failed; restoring previous container (exit=1)
+curl: (52) Empty reply from server
+{"status":"healthy"}ROLLBACK_SUCCEEDED
+{"message":"Hello from DevOps Task!","status":"running","version":"1.0.0"}
+Verified failed candidate exited nonzero and previous application version 1.0.0 is healthy.
+Application environment file is not readable
+{"status":"healthy"}
+Invalid configuration rejected before changing the running container: PASS

@@ -1,0 +1,12 @@
+NAME                       READY   STATUS    RESTARTS   AGE   IP            NODE                       NOMINATED NODE   READINESS GATES
+pod/app-5c45f7bc67-m595c   1/1     Running   0          37s   10.244.0.13   assessment-control-plane   <none>           <none>
+pod/app-5c45f7bc67-sqgz9   1/1     Running   0          44s   10.244.0.12   assessment-control-plane   <none>           <none>
+
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                    SELECTOR
+deployment.apps/app   2/2     2            2           68s   app          devops-assessment:1.0.0   app=devops-app
+
+NAME          TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE   SELECTOR
+service/app   ClusterIP   10.96.84.97   <none>        80/TCP    68s   app=devops-app
+
+NAME                                      REFERENCE        TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/app   Deployment/app   cpu: 4%/70%   2         4         2          68s

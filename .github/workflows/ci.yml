@@ -1,0 +1,174 @@
+name: CI
+on:
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  quality:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 24.22.3, cache: npm }
+      - run: npm ci --ignore-scripts
+      - run: npm run lint
+      - run: npm run test:coverage
+      - name: Hadolint
+        run: docker run --rm -i hadolint/hadolint:v2.12.0-alpine < Dockerfile
+      - name: ShellCheck
+        run: docker run --rm -v "$PWD:/mnt:ro" -w /mnt koalaman/shellcheck:v0.11.0 system_health.sh scripts/*.sh
+      - name: Infrastructure validation
+        run: bash scripts/ci-infrastructure.sh
+      - name: Health script integration tests
+        run: python3 scripts/test-health.py
+      - name: Prometheus configuration and alert behavior
+        run: |
+          docker run --rm --entrypoint promtool -v "$PWD/monitoring/prometheus:/etc/prometheus:ro" prom/prometheus:v3.5.0 check config /etc/prometheus/prometheus.yml
+          docker run --rm --entrypoint promtool -v "$PWD/monitoring/prometheus:/etc/prometheus:ro" prom/prometheus:v3.5.0 test rules /etc/prometheus/alerts.test.yml
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: tests-and-coverage
+          path: |
+            coverage/
+            docs/evidence/health-script-tests.json
+          retention-days: 14
+  image:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          load: true
+          tags: assessment:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Trivy — fail on every CRITICAL finding, including unfixed
+        run: |
+          mkdir -p reports
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock:ro -v "$PWD/reports:/reports" aquasec/trivy:0.76.2 image --db-repository ghcr.io/aquasecurity/trivy-db:2 --scanners vuln --severity CRITICAL --exit-code 1 --format json --output /reports/trivy.json assessment:ci
+          docker image inspect assessment:ci --format '{{json .}}' > reports/image-inspect.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with: { name: image-security, path: reports/, retention-days: 14 }
+  kubernetes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Create local kind cluster
+        run: |
+          curl -fsSL https://github.com/kubernetes-sigs/kind/releases/download/v0.30.0/kind-linux-amd64 -o "$RUNNER_TEMP/kind"
+          curl -fsSL https://github.com/kubernetes-sigs/kind/releases/download/v0.30.0/kind-linux-amd64.sha256sum -o "$RUNNER_TEMP/kind.sha256sum"
+          expected=$(awk '{print $1}' "$RUNNER_TEMP/kind.sha256sum")
+          printf '%s  %s\n' "$expected" "$RUNNER_TEMP/kind" | sha256sum --check
+          chmod +x "$RUNNER_TEMP/kind"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/kind" create cluster --name assessment --image kindest/node:v1.34.0 --wait 120s
+      - name: Build and load both rollout versions
+        run: |
+          docker build --build-arg APP_VERSION=1.0.0 -t devops-assessment:1.0.0 .
+          docker build --build-arg APP_VERSION=1.0.1 -t devops-assessment:1.0.1 .
+          kind load docker-image devops-assessment:1.0.0 devops-assessment:1.0.1 --name assessment
+      - name: Install metrics-server for CPU HPA
+        run: |
+          kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.8.0/components.yaml
+          # Self-signed kubelet certificates are a local-kind exception only.
+          kubectl -n kube-system patch deployment metrics-server --type=json -p '[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"}]'
+          kubectl -n kube-system rollout status deployment/metrics-server --timeout=180s
+      - name: Apply secured application and generated Secret
+        run: |
+          bash scripts/k8s-secret.sh
+          kubectl apply -k k8s/overlays/local
+          kubectl -n devops-assessment rollout status deployment/app --timeout=180s
+      - name: Zero-downtime rollout and kubectl rollout undo
+        run: bash scripts/k8s-rollout.sh devops-assessment:1.0.1
+      - name: Verify HPA has CPU metrics
+        run: |
+          for i in $(seq 1 30); do
+            value=$(kubectl -n devops-assessment get hpa app -o jsonpath='{.status.currentMetrics[0].resource.current.averageUtilization}')
+            if [ -n "$value" ]; then
+              kubectl -n devops-assessment get hpa > docs/evidence/kubernetes-hpa.txt
+              kubectl -n devops-assessment top pods >> docs/evidence/kubernetes-hpa.txt
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
+      - name: Cluster diagnostics
+        if: always()
+        run: |
+          kubectl -n devops-assessment get pods,deploy,svc,hpa -o wide > docs/evidence/kubernetes-resources.txt || true
+          kubectl -n devops-assessment get events --sort-by=.lastTimestamp > docs/evidence/kubernetes-events.txt || true
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with: { name: kubernetes-evidence, path: 'docs/evidence/kubernetes-*', retention-days: 14 }
+  monitoring:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Start all six components
+        run: |
+          python3 - <<'PY'
+          import pathlib, secrets
+          pathlib.Path('.env').write_text('GRAFANA_ADMIN_PASSWORD='+secrets.token_urlsafe(32)+'\n')
+          pathlib.Path('.env').chmod(0o600)
+          PY
+          docker compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d --build
+      - name: Verify metrics, logs, dashboards, alert firing/recovery and screenshots
+        run: |
+          python3 -m venv "$RUNNER_TEMP/browser-venv"
+          "$RUNNER_TEMP/browser-venv/bin/pip" install playwright==1.56.0
+          "$RUNNER_TEMP/browser-venv/bin/python" scripts/verify-monitoring.py --test-app-down --screenshots
+      - name: Collect diagnostics and clean up
+        if: always()
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.monitoring.yml ps > docs/evidence/monitoring-containers.txt
+          docker compose -f docker-compose.yml -f docker-compose.monitoring.yml logs --no-color --tail=150 > docs/evidence/monitoring-logs.txt
+          docker compose -f docker-compose.yml -f docker-compose.monitoring.yml down -v
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: monitoring-evidence
+          path: |
+            docs/evidence/monitoring-*
+            docs/evidence/loki-query.json
+            docs/screenshots/*.png
+          retention-days: 14
+  scheduled-health:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Run the real five-minute systemd timer
+        run: |
+          sudo useradd --system --no-create-home devops-health
+          sudo install -d /opt/devops-assessment
+          sudo install -m 0755 system_health.sh /opt/devops-assessment/
+          sudo install -m 0644 scripts/system-health.service scripts/system-health.timer /etc/systemd/system/
+          sudo systemctl daemon-reload
+          sudo systemctl enable --now system-health.timer
+          for i in $(seq 1 70); do
+            if sudo test -s /var/lib/devops-health/health_log.txt; then
+              sudo systemctl status system-health.timer --no-pager > docs/evidence/health-timer.txt
+              sudo journalctl -u system-health.service --no-pager >> docs/evidence/health-timer.txt
+              sudo cat /var/lib/devops-health/health_log.txt | python3 -c 'import json,sys; d=json.loads(sys.stdin.readline()); print("scheduled timestamp:", d["timestamp"], "exit:", d["status"])' >> docs/evidence/health-timer.txt
+              exit 0
+            fi
+            sleep 5
+          done
+          sudo journalctl -u system-health.service --no-pager
+          exit 1
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with: { name: health-timer-evidence, path: docs/evidence/health-timer.txt, retention-days: 14 }

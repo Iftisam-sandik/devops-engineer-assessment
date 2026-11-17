@@ -1,0 +1,2 @@
+# Install in the service user's crontab; ensure the log directory is writable.
+*/5 * * * * /opt/devops-assessment/system_health.sh --json --log /var/lib/devops-health/health_log.txt

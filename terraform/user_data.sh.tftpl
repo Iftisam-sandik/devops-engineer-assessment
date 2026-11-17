@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+dnf install -y docker awscli-2 procps-ng util-linux
+systemctl enable --now docker amazon-ssm-agent
+install -d -m 0755 /opt/devops-assessment
+install -d -m 0700 /etc/devops-app
+printf '%s' '${deploy_script}' | base64 -d > /opt/devops-assessment/deploy.sh
+printf '%s' '${health_script}' | base64 -d > /opt/devops-assessment/system_health.sh
+printf '%s' '${health_service}' | base64 -d > /etc/systemd/system/system-health.service
+printf '%s' '${health_timer}' | base64 -d > /etc/systemd/system/system-health.timer
+chmod 0755 /opt/devops-assessment/*.sh
+useradd --system --no-create-home devops-health
+cat > /etc/devops-app/app.env <<'ENV'
+PORT=8080
+LOG_LEVEL=info
+ENVIRONMENT=${environment}
+ENV
+cat > /etc/devops-app/deploy.env <<'ENV'
+AWS_REGION=${region}
+APP_LOG_GROUP=${log_group}
+APP_LOG_DRIVER=awslogs
+ENV
+cat > /usr/local/bin/deploy-app <<'SCRIPT'
+#!/usr/bin/env bash
+set -euo pipefail
+set -a
+source /etc/devops-app/deploy.env
+set +a
+image=$1
+if [[ $image == *.dkr.ecr.*.amazonaws.com/* ]]; then
+  registry=$${image%%/*}
+  aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$registry"
+fi
+exec /opt/devops-assessment/deploy.sh "$image"
+SCRIPT
+chmod 0700 /usr/local/bin/deploy-app
+chmod 0600 /etc/devops-app/*.env
+systemctl daemon-reload
+systemctl enable --now system-health.timer
+/usr/local/bin/deploy-app '${initial_image}'

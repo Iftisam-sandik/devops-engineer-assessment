@@ -1,0 +1,14 @@
+[Unit]
+Description=Collect host health and rotate health_log.txt
+
+[Service]
+Type=oneshot
+User=devops-health
+Group=devops-health
+StateDirectory=devops-health
+ExecStart=/opt/devops-assessment/system_health.sh --json --log /var/lib/devops-health/health_log.txt
+SuccessExitStatus=1
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
